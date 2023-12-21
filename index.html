@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter Your City Name" spellcheck="false">
+            <button><img src="images/search.png" alt=""></button>
+        </div>
+        <div class="weather">
+            <img src="images/rain.png" alt="" class="weather_icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city_name">London</h2>
+            </div>
+        
+        </div>
+    </div>
+    <script>
+        const apiKey = '6cfbdc85c9d72760536f51a419334000';
+        const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+        const searchBox = document.querySelector('.search input');
+        const searchBtn = document.querySelector('.search button');
+        const weatherIcon = document.querySelector('.weather_icon');
+        async function getWeather(city){
+            const response = await fetch(apiUrl+ city + `&appid=${apiKey}`);
+            var data = await response.json();
+            console.log(data);
+            document.querySelector('.temp').innerHTML = Math.round(data.main.temp) +" " + "°C";
+            document.querySelector('.city_name').innerHTML = data.name;
+
+            if(data.weather[0].main == "Clouds"){
+                weatherIcon.src = "images/clouds.png";
+
+            }else if(data.weather[0].main == "Clear"){
+                weatherIcon.src = "images/clear.png";
+            }
+            else if(data.weather[0].main == 'Rain'){
+                weatherIcon.src = "images/rain.png";
+            }
+            else if(data.weather[0].main == 'Mist'){
+                weatherIcon.src = "images/mist.png";
+            }
+            else if(data.weather[0].main == 'Drizzle'){
+                weatherIcon.src = "images/drizzle.png";
+            }
+          document.querySelector('.weather').style.display = 'block';
+
+        }
+        searchBtn.addEventListener("click", ()=>{
+            getWeather(searchBox.value);
+
+        })
+      
+      
+   
+      
+    </script>
+</body>
+</html>
